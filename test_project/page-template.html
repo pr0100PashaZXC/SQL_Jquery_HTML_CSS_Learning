@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <title>KorneplodNet: $userstr</title>
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <div id="logo" class="center">K<img id="robin" src="robin.gif">rneplodNet</div>
+            <div class="username">$userstr</div>
+        </div>
+        <div data-role="content">
+        <div class="center">
+            <a data-role="button" data-inline="true" data-icon="home"
+               data-transition="slide" href="index.php">Home</a>
+            <a data-role="button" data-inline="true" data-icon="plus"
+               data-transition="slide" href="signup.php">Sign up</a>
+            <a data-role="button" data-inline="true" data-icon="check"
+               data-transition="slide" href="login.php">Log in</a>                         
+        </div>
+        <p class="info">(You must logged in to use this app)</p>
+        </div>
+    </div>
+
+    <script>
+        function checkUser(user){
+            if (user.value == ""){
+                $('#used').html('&nbsp;')
+                return
+            }
+
+            $.post(
+                'checkuser.php',
+                {user: user.value},
+                function(data){
+                    $('#used').html(data)
+                }
+            )
+        }
+    </script>
+
+    <form method="post" action="signup.php">$error
+    <div data-role="fieldcontain">
+        <label></label>
+        Please enter your details to sign up
+    </div>
+    <div data-role="fieldcontain">
+        <label>username</label>
+        <input type="text" maxlength="16" name="user" value="$user" onblur="checkUser(this)">
+        <label></label><div id="used">&nbsp;</div>
+    </div>
+    <div data-role="fieldcontain">
+        <label>Password</label>
+        <input type="text" maxlength="16" name="pass" value="$pass">
+    </div>
+    <div data-role="fieldcontain">
+        <label ></label>
+        <input data-transition="slide" type="submit" value="Sign Up">
+    </div>
+    </div>
+    </form>
+    <form method="post" action="login.php">
+        <div data-role="fieldcontain">
+            <label></label>
+            <span class="error">$error</span>
+        </div>
+        <div data-role="fieldcontain">
+            <label>username</label>
+            <input type="text" maxlength="16" name="user" value="$user">
+        </div>
+        <div data-role="fieldcontain">
+            <label>password</label>
+            <input type="password" maxlength="16" name="pass" value="$pass">
+        </div>
+        <div data-role="fieldcontain">
+            <label></label>
+            <input data-transition="slide" type="submit" value="login">
+        </div>
+    </form>
+    </div>
+    <form data-ajax="false" method="post" action="profile.php" enctype="multipart/form-data">
+        <h3>Enter or edit your details and/or upload an image</h3>
+        <textarea name="text">$text</textarea><br>
+        Image: <input type="file" name="image" size="14">
+        <input type="submit" value="Save Profile">
+    </form>
+</body>
+</html>
